@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="styles.css" />
+
+    <title>Frontend Mentor | Typing Speed Test</title>
+  </head>
+  <body>
+    <header class="heading-container">
+      <!-- Second Row -->
+
+      <div class="first-row">
+        <div class="logo-wrapper">
+          <img
+            class="logo-large"
+            src="assets/images/logo-large.svg"
+            alt="typing speed test"
+          />
+          <img
+            class="logo-small"
+            src="assets/images/logo-small.svg"
+            alt="typing speed test"
+          />
+        </div>
+
+        <div class="personal-best">
+          <img
+            class="personal-img"
+            src="assets/images/icon-personal-best.svg"
+            alt="personal best"
+          />
+          <p class="personal">
+            <span class="personal-text">Personal</span> best:<span
+              class="best-92"
+              >92WPM</span
+            >
+          </p>
+        </div>
+      </div>
+      <!-- Second Row -->
+      <div class="second-row">
+        <div class="left-flex">
+          <p class="wpm">WPM:<span class="wpm-span">0</span></p>
+          <p class="accuracy">Accuracy:<span class="a-span">100%</span></p>
+          <p class="time">Time:<span class="T-span">0:60</span></p>
+        </div>
+        <div class="right-flex">
+          <p class="difficulty">
+            Difficulty: <button class="level easy" type="button">Easy</button>
+            <button class="level medium" type="button">Medium</button
+            ><button class="level hard" type="button">Hard</button>
+          </p>
+          <div class="mode">
+            <p class="mode-para">
+              Mode:<button class="timed" type="button">Timed(60s)</button>
+            </p>
+            <p><button class="passage" type="button">Passage</button></p>
+          </div>
+        </div>
+        <div class="drop-down">
+          <div class="hamburger hamburger-level">
+            <button class="hard-2">
+              Hard <img src="assets/images/icon-down-arrow.svg" alt="arrow" />
+            </button>
+            <div class="menu menu-one">
+              <label class="menu-item">
+                <input
+                  class="easy-humburger"
+                  type="radio"
+                  name="difficulty"
+                  value="easy"
+                />
+                <span>Easy</span>
+              </label>
+              <label class="menu-item">
+                <input
+                  class="medium-humburger"
+                  type="radio"
+                  name="difficulty"
+                  value="medium"
+                />
+                <span>Medium</span>
+              </label>
+              <label class="menu-item">
+                <input
+                  class="hard-humburger"
+                  type="radio"
+                  name="difficulty"
+                  value="hard"
+                />
+                <span>Hard</span>
+              </label>
+            </div>
+          </div>
+          <div class="hamburger hamburger-mode">
+            <button class="timed-2">
+              Timed(60s)
+              <img src="assets/images/icon-down-arrow.svg" alt="arrow" />
+            </button>
+            <div class="menu menu-two">
+              <label class="menu-item">
+                <input
+                  class="timed-humburger"
+                  type="radio"
+                  name="mode"
+                  value="timed"
+                />
+                <span>Timed(60s)</span>
+              </label>
+              <label class="menu-item">
+                <input
+                  class="passage-humburger"
+                  type="radio"
+                  name="mode"
+                  value="passage"
+                />
+                <span>Passage</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main-container">
+      <!-- Not started sreen (blur screen)-->
+      <section class="blur-screen">
+        <p class="blur-text">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium
+          officia repellendus quos ducimus, facere voluptatum veniam temporibus
+          tenetur pariatur animi ipsa dicta magnam facilis deserunt maxime
+          doloribus quia ratione illo! Labore hic perferendis odio! Ipsum
+          exercitationem voluptatem ullam ratione dicta eum sequi beatae est
+          animi. Aspernatur, at, debitis porro asperiores amet quia sapiente
+          exercitationem laboriosam commodi rem, odio culpa qui. Molestiae nulla
+          <span class="hide-half">
+            repudiandae in perferendis id eaque cum voluptatum enim itaque ad
+            odit magni voluptas alias, voluptates assumenda ipsa facilis commodi
+            magni voluptas alias, voluptates assumenda ipsa facilis commodi
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Accusantium officia repellendus quos ducimus, facere voluptatum
+            veniam temporibus tenetur pariatur animi ipsa dicta magnam facilis
+            deserunt maxime doloribus quia ratione illo! Labore hic perferendis
+            odio! Ipsum exercitationem voluptatem ullam ratione dicta eum sequi
+            beatae est animi. Aspernatur, at, debitis porro asperiores amet quia
+            sapiente exercitationem laboriosam commodi rem, odio culpa qui.
+            Molestiae nulla repudiandae in</span
+          >
+        </p>
+        <div class="start-controls">
+          <button class="start-btn" type="button">Start Typing Test</button>
+          <p class="click-text">Or click the text and start typing</p>
+        </div>
+      </section>
+      <!-- Started screen -->
+      <section class="started-screen" hidden>
+        <p class="started-text">
+          <span class="started-green-text"
+            >The archaeological expedition un</span
+          ><span class="started-red-text">ear</span
+          ><span class="started-green-text"
+            >thed artifacts that complicated prev</span
+          ><span class="started-red-text">ailing</span>
+          <span class="started-green-text">theories about Bro</span
+          ><span class="show-cursor">n</span>ze Age trade networks. Obsidian
+          from Anatolia, lapis lazuli from Afghanistan,
+          <span class="hide-half"
+            >and amber from the Baltic—all discovered in a single Mycenaean
+            tomb—suggested commercial connections far more extensive than
+            previously hypothesized. \"We've underestimated ancient peoples'
+            navigational capabilities and their appetite for luxury goods,\" the
+            lead researcher observed. \"Globalization isn't as modern as we
+            assume.\"" ></span
+          >
+        </p>
+        <button class="restart-btn" type="button">
+          Restart Test
+          <img src="assets/images/icon-restart.svg" alt="restart" />
+        </button>
+      </section>
+      <!-- result screen (test complete)-->
+      <section class="result-screen" hidden>
+        <img class="sun" src="assets/images/pattern-star-2.svg" alt="sun-img" />
+
+        <div class="result-container">
+          <div class="completed-img-wrapper">
+            <img
+              class="completed-img"
+              src="assets/images/icon-completed.svg"
+              alt="completed"
+            />
+          </div>
+
+          <div class="result-detail-container">
+            <h1 class="result-heading">Test Complete!</h1>
+            <p class="result-para">
+              Solid run. Keep pushing to beat your high score.
+            </p>
+            <div class="result-detail">
+              <p class="wpm-achieved">
+                WPM:<span class="wpm-span-result">85</span>
+              </p>
+              <p class="accuracy-achieved">
+                Accuracy:<span class="a-span-result">95%</span>
+              </p>
+              <p class="char-achieved">
+                Characters:<span class="char-span-result"
+                  >120<span class="char-span-slash">/</span
+                  ><span class="char-span-red">5</span>
+                </span>
+              </p>
+            </div>
+            <button class="go-again-btn" type="button">
+              Go Again
+              <img src="assets/images/icon-restart-black.svg" alt="restart" />
+            </button>
+          </div>
+        </div>
+        <img class="star" src="assets/images/pattern-star-1.svg" alt="star" />
+      </section>
+      <!-- Result first test Screen (baseline established)-->
+      <section class="first-test-screen" hidden>
+        <img class="sun" src="assets/images/pattern-star-2.svg" alt="sun-img" />
+
+        <div class="result-container">
+          <div class="completed-img-wrapper">
+            <img
+              class="completed-img"
+              src="assets/images/icon-completed.svg"
+              alt="completed"
+            />
+          </div>
+
+          <div class="result-detail-container">
+            <h1 class="result-heading">Baseline Established!</h1>
+            <p class="result-para">
+              You've set the bar.Now the real challenge begins&mdash;time to
+              beat it.
+            </p>
+            <div class="result-detail">
+              <p class="wpm-achieved">
+                WPM:<span class="wpm-span-result">85</span>
+              </p>
+              <p class="accuracy-achieved">
+                Accuracy:<span class="a-span-result">95%</span>
+              </p>
+              <p class="char-achieved">
+                Characters:<span class="char-span-result"
+                  >120<span class="char-span-slash">/</span
+                  ><span class="char-span-red">5</span>
+                </span>
+              </p>
+            </div>
+            <button class="beat-score-btn" type="button">
+              Beat This Score
+              <img src="assets/images/icon-restart-black.svg" alt="restart" />
+            </button>
+          </div>
+        </div>
+        <img class="star" src="assets/images/pattern-star-1.svg" alt="star" />
+      </section>
+      <!----- Result new personal best screen (high score smashed)----->
+      <section class="personal-best-screen" hidden>
+        <!-- <img class="sun" src="assets/images/pattern-star-2.svg" alt="sun-img" /> -->
+        <div class="result-container">
+          <img
+            class="completed-img new-pb-img"
+            src="assets/images/icon-new-pb.svg"
+            alt="new best"
+          />
+
+          <div class="result-detail-container">
+            <h1 class="result-heading">High Score Smashed!</h1>
+            <p class="result-para">
+              You're getting faster. That was incredible typing.
+            </p>
+            <div class="result-detail">
+              <p class="wpm-achieved">
+                WPM:<span class="wpm-span-result">85</span>
+              </p>
+              <p class="accuracy-achieved">
+                Accuracy:<span class="a-span-result">95%</span>
+              </p>
+              <p class="char-achieved">
+                Characters:<span class="char-span-result"
+                  >120<span class="char-span-slash">/</span
+                  ><span class="char-span-red">5</span>
+                </span>
+              </p>
+            </div>
+            <button class="beat-score-btn" type="button">
+              Beat This Score
+              <img src="assets/images/icon-restart-black.svg" alt="restart" />
+            </button>
+          </div>
+        </div>
+        <img
+          class="confetti-img"
+          src="assets/images/pattern-confetti.svg"
+          alt="confetti"
+        />
+      </section>
+    </main>
+
+    <footer class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
+      Coded by <a href="#">Ahmad</a>.
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
