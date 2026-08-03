@@ -1,18 +1,18 @@
 @font-face {
   font-family: "Sora";
-  src: url("./assets/fonts/static/Sora-Regular.ttf");
+  src: url("./assets/fonts/Sora/static/Sora-Regular.ttf");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Sora";
-  src: url("./assets/fonts/static/Sora-SemiBold.ttf");
+  src: url("./assets/fonts/Sora/static/Sora-SemiBold.ttf");
   font-weight: 600;
 }
 
 @font-face {
   font-family: "Sora";
-  src: url("./assets/fonts/static/Sora-Bold.ttf");
+  src: url("./assets/fonts/Sora/static/Sora-Bold.ttf");
   font-weight: 700;
 }
 * {
@@ -133,12 +133,14 @@ body {
   font-weight: 400;
   cursor: pointer;
 }
-.hard,
-.timed {
+
+/* added this style for buttons when they are selected */
+.active {
   color: var(--colorbule-light);
   border: 1px solid var(--colorbule-light);
   cursor: pointer;
 }
+
 .easy:hover,
 .medium:hover,
 .passage:hover {
@@ -152,7 +154,6 @@ body {
 .start-btn:focus {
   outline: 2px solid var(--colorbule-light);
   outline-offset: 2px;
-
   border: 1px solid var(--colorgray-light);
 }
 .hard:focus,
@@ -239,10 +240,13 @@ body {
   margin-bottom: 20px;
 }
 /* started screen different color text */
-.started-green-text {
+/* the correct and incorrect classes not in html but added through JS styled here */
+.started-green-text,
+.correct {
   color: var(--color-green);
 }
-.started-red-text {
+.started-red-text,
+.incorrect {
   color: var(--color-red);
 }
 .show-cursor {
