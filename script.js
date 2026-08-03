@@ -8,8 +8,16 @@ const startBtn = document.querySelector(".start-btn");
 const restartBtn = document.querySelector(".restart-btn");
 const startedText = document.querySelector(".started-text");
 let spans = document.querySelectorAll(".started-text span");
+const easyBtn = document.querySelector(".easy");
+const mediumBtn = document.querySelector(".medium");
+const hardBtn = document.querySelector(".hard");
+
+const timedBtn = document.querySelector(".timed");
+const passageBtn = document.querySelector(".passage");
 
 let currentIndex = 0;
+let currentLevel = "hard";
+let currentMode = "timed";
 
 // this fucntion reset the values of spans in second row.
 // and this this function called in startTest fucntion.
@@ -35,9 +43,12 @@ function loadRandomPassage() {
   fetch("./data.json")
     .then((response) => response.json())
     .then((data) => {
-      const hardPassages = data.hard;
-      let randomPassage = Math.floor(Math.random() * hardPassages.length);
-      startedText.innerHTML = spanPassage(hardPassages[randomPassage].text);
+      //   const hardPassages = data.hard;
+      //   first added hardPassage for test then replaced to dynamically change with different level btns.
+      const currentPassages = data[currentLevel];
+
+      let randomPassage = Math.floor(Math.random() * currentPassages.length);
+      startedText.innerHTML = spanPassage(currentPassages[randomPassage].text);
       spans = document.querySelectorAll(".started-text span");
     });
 }
@@ -71,4 +82,42 @@ document.addEventListener("keydown", (event) => {
     spans[currentIndex].classList.remove("correct");
     spans[currentIndex].classList.remove("incorrect");
   }
+});
+//  this section will change levels and remove the active class when a new level btn is selected and will add the active class to selected btn.
+
+function setActiveLevel(selectedButton) {
+  easyBtn.classList.remove("active");
+  mediumBtn.classList.remove("active");
+  hardBtn.classList.remove("active");
+  selectedButton.classList.add("active");
+}
+// eventlisteners for level buttons.
+easyBtn.addEventListener("click", () => {
+  currentLevel = "easy";
+  setActiveLevel(easyBtn);
+});
+
+mediumBtn.addEventListener("click", () => {
+  currentLevel = "medium";
+  setActiveLevel(mediumBtn);
+});
+hardBtn.addEventListener("click", () => {
+  currentLevel = "hard";
+  setActiveLevel(hardBtn);
+});
+// this section flip mode and sets the active button style.
+function setModeActive(selectedbtn) {
+  timedBtn.classList.remove("active");
+  passageBtn.classList.remove("active");
+  selectedbtn.classList.add("active");
+}
+// Event listeners for Mode buttons
+timedBtn.addEventListener("click", () => {
+  currentMode = "timed";
+  setModeActive(timedBtn);
+});
+
+passageBtn.addEventListener("click", () => {
+  currentMode = "passage";
+  setModeActive(passageBtn);
 });
