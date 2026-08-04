@@ -18,6 +18,9 @@ const passageBtn = document.querySelector(".passage");
 let currentIndex = 0;
 let currentLevel = "hard";
 let currentMode = "timed";
+let hasTimeStarted = false;
+let startTime;
+let timerStop;
 
 // this fucntion reset the values of spans in second row.
 // and this this function called in startTest fucntion.
@@ -69,12 +72,35 @@ document.addEventListener("keydown", (event) => {
   // event.key.length===1 handles only typing keys to use that are on char long. which includes alpha-numeric and punctuation keys.
   if (event.key.length === 1) {
     // this "if" statement handle the user's typed char vs existing char.
-    if (event.key === spans[currentIndex].textContent) {
-      spans[currentIndex].classList.add("correct");
-    } else {
-      spans[currentIndex].classList.add("incorrect");
+    if (currentIndex < spans.length) {
+      if (event.key === spans[currentIndex].textContent) {
+        spans[currentIndex].classList.add("correct");
+      } else {
+        spans[currentIndex].classList.add("incorrect");
+      }
+      currentIndex++;
+
+      //   this section set timer for timed and passage mode.
+      if (!hasTimeStarted) {
+        hasTimeStarted = true;
+        startTime = new Date().getTime();
+        timerStop = setInterval(() => {
+          let elapsedTime = new Date().getTime() - startTime;
+          let elapsedSeconds = Math.floor(elapsedTime / 1000);
+          if (currentMode === "timed") {
+            let remainingTime;
+            remainingTime = 60 - elapsedSeconds;
+            if (remainingTime === 0 || currentIndex === spans.length) {
+              clearInterval(timerStop);
+            }
+          } else {
+            if (currentMode === "passage") {
+              if (currentIndex === spans.length) clearInterval(timerStop);
+            }
+          }
+        }, 1000);
+      }
     }
-    currentIndex++;
   }
   //   this part handles function of backspace.
   if (event.key === "Backspace" && currentIndex > 0) {
