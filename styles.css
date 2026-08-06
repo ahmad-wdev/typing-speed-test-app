@@ -40,7 +40,8 @@ body {
 }
 .result-screen[hidden],
 .first-test-screen[hidden],
-.personal-best-screen[hidden] {
+.personal-best-screen[hidden],
+.second-row[hidden] {
   display: none;
 }
 .logo-large {
@@ -69,11 +70,14 @@ body {
 .wpm-span,
 .T-span,
 .a-span {
+  display: inline-block;
+  min-width: 50px;
   color: var(--color-white);
   margin-left: 5px;
   font-size: 18px;
   font-weight: 700;
 }
+
 .heading-container {
   width: 80%;
   margin: 40px auto 0 auto;
@@ -107,7 +111,7 @@ body {
 .left-flex {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
 }
 .right-flex {
   padding: 0 10px 0 0;
@@ -248,6 +252,7 @@ body {
 .started-red-text,
 .incorrect {
   color: var(--color-red);
+  text-decoration: underline;
 }
 .show-cursor {
   background-color: var(--colorgray-dark);

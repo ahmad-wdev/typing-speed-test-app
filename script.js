@@ -11,12 +11,15 @@ let spans = document.querySelectorAll(".started-text span");
 const easyBtn = document.querySelector(".easy");
 const mediumBtn = document.querySelector(".medium");
 const hardBtn = document.querySelector(".hard");
+const beatScoreBtn = document.querySelectorAll(".beat-score-btn");
+const goAgainBtn = document.querySelector(".go-again-btn");
 
 const timedBtn = document.querySelector(".timed");
 const passageBtn = document.querySelector(".passage");
 let tSpan = document.querySelector(".T-span");
 let aSpan = document.querySelector(".a-span");
 let wpmSpan = document.querySelector(".wpm-span");
+const secondRow = document.querySelector(".second-row");
 
 let currentIndex = 0;
 let currentLevel = "hard";
@@ -24,7 +27,8 @@ let currentMode = "timed";
 let hasTimeStarted = false;
 let startTime;
 let timerStop;
-
+let wpm = 0;
+secondRow.hidden = false;
 // this fucntion reset the values of spans in second row.
 // and this this function called in startTest fucntion.
 function resetStates() {
@@ -32,8 +36,11 @@ function resetStates() {
   wpmSpan.textContent = 0;
   aSpan.textContent = "0%";
   tSpan.textContent = "0:00";
+  hasTimeStarted = false;
+  secondRow.hidden = false;
+  clearInterval(timerStop);
 }
-// this function convert the text string into each character enclosed in span.
+// this function convert the text string (with in the started text) into each character enclosed in span.
 function spanPassage(text) {
   let spanResult = "";
   for (let char of text) {
@@ -64,17 +71,107 @@ function startTest() {
   resetStates();
   loadRandomPassage();
   currentIndex = 0;
+  syncHeaderPersonalBest();
+}
+
+// --- LOCAL STORAGE TRACKING BLOCK ---
+// Target the text span in header
+const headerPersonalBestSpan = document.querySelector(".best-92");
+
+// Function to update the top header display using local storage values
+function syncHeaderPersonalBest() {
+  let savedBest = localStorage.getItem("personalBest");
+  let personalBest = savedBest ? parseInt(savedBest, 10) : 0;
+
+  if (headerPersonalBestSpan) {
+    headerPersonalBestSpan.textContent = `${personalBest} WPM`;
+  }
+}
+
+// Function to handle test completion screens and score comparisons
+function handleTestCompletion(currentWpm) {
+  let savedBest = localStorage.getItem("personalBest");
+
+  // Hide the typing screen first
+  startedScreen.hidden = true;
+
+  // Case 1: First time taking the test (No baseline established yet)
+  if (savedBest === null) {
+    localStorage.setItem("personalBest", currentWpm);
+    // Show "Baseline Established!" screen
+    firstTestScreen.hidden = false;
+    secondRow.hidden = true;
+  }
+  // Case 2: Smashed their previous high score
+  else if (currentWpm > parseInt(savedBest, 10)) {
+    localStorage.setItem("personalBest", currentWpm);
+    // Show "High Score Smashed!" screen
+    personalBestScreen.hidden = false;
+    secondRow.hidden = true;
+  }
+  // Case 3: Finished, but didn't beat the personal best
+  else {
+    // Show standard "Test Complete!" screen
+    resultScreen.hidden = false; // Show standard "Test Complete!" screen
+    secondRow.hidden = true;
+  }
+
+  let wpmResult = document.querySelectorAll(".wpm-span-result");
+  let wpmResultArray = Array.from(wpmResult);
+  wpmResultArray.forEach((element) => {
+    element.textContent = currentWpm;
+  });
+  let accuracyResult = document.querySelectorAll(".a-span-result");
+  let accuracyResultArray = Array.from(accuracyResult);
+
+  let correctArray = Array.from(spans).filter((span) =>
+    span.classList.contains("correct"),
+  );
+  let correctCount = correctArray.length;
+  let incorrectArray = Array.from(spans).filter((span) =>
+    span.classList.contains("incorrect"),
+  );
+  let incorrectCount = incorrectArray.length;
+  let totalCount = correctCount + incorrectCount;
+  let currentPercentage = Math.floor((correctCount / totalCount) * 100);
+  accuracyResultArray.forEach((element) => {
+    element.textContent = `${currentPercentage}%`;
+  });
+
+  let charRedResult = document.querySelectorAll(".char-span-red");
+  Array.from(charRedResult).forEach((element) => {
+    element.textContent = incorrectCount;
+  });
+  let charCorrectResult = document.querySelectorAll(".char-span-correct");
+  Array.from(charCorrectResult).forEach((element) => {
+    element.textContent = correctCount;
+  });
+
+  // Refresh the header high score display immediately upon finishing
+  syncHeaderPersonalBest();
 }
 
 // Event listeners for startBtn and RestartBtn. Both using startTest fucntion.
 startBtn.addEventListener("click", startTest);
 restartBtn.addEventListener("click", startTest);
 
-// event listener for typing and giving colors to correct and incorrect char.
+goAgainBtn.addEventListener("click", () => {
+  startTest();
+  resultScreen.hidden = true;
+});
+beatScoreBtn.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    startTest();
+    personalBestScreen.hidden = true;
+    firstTestScreen.hidden = true;
+  });
+});
+
+// Event listener for typing and giving colors to correct and incorrect char.
 document.addEventListener("keydown", (event) => {
   // event.key.length===1 handles only typing keys to use that are one char long. which includes alpha-numeric and punctuation keys.
   if (event.key.length === 1) {
-    // this "if" statement handle the user's typed char vs existing char.
+    // This "if" statement handle the user's typed char vs existing char.
     if (currentIndex < spans.length) {
       if (event.key === spans[currentIndex].textContent) {
         spans[currentIndex].classList.add("correct");
@@ -91,32 +188,10 @@ document.addEventListener("keydown", (event) => {
           let elapsedTime = new Date().getTime() - startTime;
           //   converts miliseconds into seconds
           let elapsedSeconds = Math.floor(elapsedTime / 1000);
-          if (currentMode === "timed") {
-            let remainingTime;
-            remainingTime = 60 - elapsedSeconds;
-
-            // timer starts here in time span for timed.
-            let formattedTime = remainingTime.toString().padStart(2, "0");
-            let displayTime = `0:${formattedTime}`;
-            tSpan.textContent = displayTime;
-
-            if (remainingTime === 0 || currentIndex === spans.length) {
-              clearInterval(timerStop);
-            }
-          } else {
-            if (currentMode === "passage") {
-              // this add and starts Time in Time span for passage active.
-              let minutes = Math.floor(elapsedSeconds / 60);
-              let remainingSeconds = elapsedSeconds % 60;
-              let formattedSeconds = remainingSeconds
-                .toString()
-                .padStart(2, "0");
-              let displayTime = `${minutes}:${formattedSeconds}`;
-              tSpan.textContent = displayTime;
-              if (currentIndex === spans.length) clearInterval(timerStop);
-            }
+          if (elapsedSeconds === 0) {
+            elapsedSeconds = 1;
           }
-          // standard 5-letter words
+
           let correctArray = Array.from(spans).filter((span) =>
             span.classList.contains("correct"),
           );
@@ -129,9 +204,40 @@ document.addEventListener("keydown", (event) => {
 
           let totalCount = correctCount + incorrectCount;
           let standardWords = totalCount / 5;
-          let wpm = Math.floor(standardWords / (elapsedSeconds / 60));
+          wpm = Math.floor(standardWords / (elapsedSeconds / 60));
 
           wpmSpan.textContent = wpm;
+
+          if (currentMode === "timed") {
+            let remainingTime;
+            remainingTime = 60 - elapsedSeconds;
+
+            // timer starts here in time span for timed.
+            let formattedTime = remainingTime.toString().padStart(2, "0");
+            let displayTime = `0:${formattedTime}`;
+            tSpan.textContent = displayTime;
+
+            if (remainingTime === 0 || currentIndex === spans.length) {
+              clearInterval(timerStop);
+
+              handleTestCompletion(wpm);
+            }
+          } else {
+            if (currentMode === "passage") {
+              // this add and starts Time in Time span for passage active.
+              let minutes = Math.floor(elapsedSeconds / 60);
+              let remainingSeconds = elapsedSeconds % 60;
+              let formattedSeconds = remainingSeconds
+                .toString()
+                .padStart(2, "0");
+              let displayTime = `${minutes}:${formattedSeconds}`;
+              tSpan.textContent = displayTime;
+              if (currentIndex === spans.length) {
+                clearInterval(timerStop);
+                handleTestCompletion(wpm);
+              }
+            }
+          }
         }, 1000);
       }
 
