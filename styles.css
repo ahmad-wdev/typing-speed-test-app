@@ -450,14 +450,25 @@ body {
   .left-flex {
     width: 100%;
     justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: -5px;
   }
   .wpm,
   .accuracy,
   .time {
+    flex-grow: 1;
+    /* background-color: aqua; */
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 5px;
     padding: 5px;
+  }
+  .accuracy,
+  .time {
+    padding-left: 10px;
+    border-left: 2px solid var(--secondarycolor-black);
   }
   .wpm > span {
     margin-left: 15px;
@@ -473,7 +484,7 @@ body {
   /*The humburger menu (menu-one and menu-two) is set to display none intentionaly  */
   .menu {
     background-color: var(--secondarycolor-black);
-    width: 125px;
+    min-width: 135px;
     padding: 5px;
     display: flex;
     flex-direction: column;
@@ -482,6 +493,7 @@ body {
     top: 35px;
     z-index: 1;
     display: none;
+    /* background-color: aqua; */
   }
   .menu-item {
     display: flex;
@@ -534,13 +546,14 @@ body {
   }
   .hard-2,
   .timed-2 {
-    width: 125px;
+    width: 135px;
     padding: 5px;
     color: var(--color-white);
     background-color: transparent;
     border: 1px solid hsl(240, 3%, 46%);
     border-radius: 8px;
     gap: 5px;
+    font-weight: 400;
     cursor: pointer;
   }
   .heading-container {
@@ -592,5 +605,17 @@ body {
     justify-content: center;
     margin: -20px auto;
     z-index: 1;
+  }
+  .timed-2:hover,
+  .hard-2:hover {
+    color: var(--colorbule-light);
+    border: 1px solid var(--colorbule-light);
+    cursor: pointer;
+  }
+  .hard-2:focus,
+  .timed-2:focus {
+    outline: 2px solid var(--colorbule-light);
+    outline-offset: 2px;
+    border: 1px solid var(--colorgray-light);
   }
 }
