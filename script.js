@@ -13,6 +13,7 @@ const mediumBtn = document.querySelector(".medium");
 const hardBtn = document.querySelector(".hard");
 const beatScoreBtn = document.querySelectorAll(".beat-score-btn");
 const goAgainBtn = document.querySelector(".go-again-btn");
+const blurText = document.querySelector(".blur-text");
 
 const timedBtn = document.querySelector(".timed");
 const passageBtn = document.querySelector(".passage");
@@ -20,6 +21,10 @@ let tSpan = document.querySelector(".T-span");
 let aSpan = document.querySelector(".a-span");
 let wpmSpan = document.querySelector(".wpm-span");
 const secondRow = document.querySelector(".second-row");
+const hard2Btn = document.querySelector(".hard-2");
+const timed2Btn = document.querySelector(".timed-2");
+const menuOne = document.querySelector(".menu-one");
+const menuTwo = document.querySelector(".menu-two");
 
 let currentIndex = 0;
 let currentLevel = "hard";
@@ -68,6 +73,8 @@ function loadRandomPassage() {
 function startTest() {
   notStartedScreen.hidden = true;
   startedScreen.hidden = false;
+  aSpan.style.color = " hsl(354, 63%, 57%)";
+  tSpan.style.color = " hsl(49, 85%, 70%)";
   resetStates();
   loadRandomPassage();
   currentIndex = 0;
@@ -154,6 +161,7 @@ function handleTestCompletion(currentWpm) {
 // Event listeners for startBtn and RestartBtn. Both using startTest fucntion.
 startBtn.addEventListener("click", startTest);
 restartBtn.addEventListener("click", startTest);
+blurText.addEventListener("click", startTest);
 
 goAgainBtn.addEventListener("click", () => {
   startTest();
@@ -305,4 +313,67 @@ timedBtn.addEventListener("click", () => {
 passageBtn.addEventListener("click", () => {
   currentMode = "passage";
   setModeActive(passageBtn);
+});
+
+//  Hide and show the hamburger menu.
+hard2Btn.addEventListener("click", () => {
+  if (menuOne.style.display === "block") {
+    menuOne.style.display = "none";
+  } else {
+    menuOne.style.display = "block";
+  }
+});
+
+timed2Btn.addEventListener("click", () => {
+  if (menuTwo.style.display === "block") {
+    menuTwo.style.display = "none";
+  } else {
+    menuTwo.style.display = "block";
+  }
+});
+// ----- Event Listeners for dropdown hamburger menu.
+let difficultyRadio = document.querySelectorAll('input[name="difficulty"]');
+let modeRadio = document.querySelectorAll('input[name="mode"]');
+
+// ------Menu one (Hard)-----
+difficultyRadio.forEach((radio) => {
+  radio.addEventListener("change", (event) => {
+    const selectedValue = event.target.value;
+    currentLevel = selectedValue;
+    if (hard2Btn) {
+      const capitalizedLevelValue =
+        selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1);
+      hard2Btn.innerHTML = `${capitalizedLevelValue} <img src="assets/images/icon-down-arrow.svg" alt="arrow" />`;
+    }
+
+    //------ To sync menu buttons with desktop buttons.-----
+    if (selectedValue === "easy" && easyBtn) easyBtn.click();
+    if (selectedValue === "medium" && mediumBtn) mediumBtn.click();
+    if (selectedValue === "hard" && hardBtn) hardBtn.click();
+
+    if (menuOne) {
+      menuOne.style.display = "none";
+    }
+  });
+});
+// ------Menu two (Timed(60s))
+modeRadio.forEach((radio) => {
+  radio.addEventListener("change", (event) => {
+    const selectedValue = event.target.value;
+    currentMode = selectedValue;
+    if (timed2Btn) {
+      if (selectedValue === "timed") {
+        const capitalizedModeValue =
+          selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1);
+        timed2Btn.innerHTML = `${capitalizedModeValue}(60s) <img src="assets/images/icon-down-arrow.svg" alt="arrow" />`;
+      } else {
+        const capitalizedModeValue =
+          selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1);
+        timed2Btn.innerHTML = `${capitalizedModeValue} <img src="assets/images/icon-down-arrow.svg" alt="arrow" />`;
+      }
+      if (selectedValue === "timed" && timedBtn) timedBtn.click();
+      if (selectedValue === "passage" && passageBtn) passageBtn.click();
+    }
+    menuTwo.style.display = "none";
+  });
 });
