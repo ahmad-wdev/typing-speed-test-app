@@ -17,9 +17,9 @@ const blurText = document.querySelector(".blur-text");
 
 const timedBtn = document.querySelector(".timed");
 const passageBtn = document.querySelector(".passage");
-let tSpan = document.querySelector(".T-span");
-let aSpan = document.querySelector(".a-span");
-let wpmSpan = document.querySelector(".wpm-span");
+const tSpan = document.querySelector(".T-span");
+const aSpan = document.querySelector(".a-span");
+const wpmSpan = document.querySelector(".wpm-span");
 const secondRow = document.querySelector(".second-row");
 const hard2Btn = document.querySelector(".hard-2");
 const timed2Btn = document.querySelector(".timed-2");
@@ -48,7 +48,7 @@ function resetStates() {
 // this function convert the text string (with in the started text) into each character enclosed in span.
 function spanPassage(text) {
   let spanResult = "";
-  for (let char of text) {
+  for (const char of text) {
     spanResult += `<span>${char}</span>`;
   }
   return spanResult;
@@ -64,7 +64,7 @@ function loadRandomPassage() {
       //   first added hardPassage for test then replaced with currentPassage for dynamically change with different level btns.
       const currentPassages = data[currentLevel];
 
-      let randomPassage = Math.floor(Math.random() * currentPassages.length);
+      const randomPassage = Math.floor(Math.random() * currentPassages.length);
       startedText.innerHTML = spanPassage(currentPassages[randomPassage].text);
       spans = document.querySelectorAll(".started-text span");
     });
@@ -87,8 +87,8 @@ const headerPersonalBestSpan = document.querySelector(".best-92");
 
 // Function to update the top header display using local storage values
 function syncHeaderPersonalBest() {
-  let savedBest = localStorage.getItem("personalBest");
-  let personalBest = savedBest ? parseInt(savedBest, 10) : 0;
+  const savedBest = localStorage.getItem("personalBest");
+  const personalBest = savedBest ? parseInt(savedBest, 10) : 0;
 
   if (headerPersonalBestSpan) {
     headerPersonalBestSpan.textContent = `${personalBest} WPM`;
@@ -97,7 +97,7 @@ function syncHeaderPersonalBest() {
 
 // Function to handle test completion screens and score comparisons
 function handleTestCompletion(currentWpm) {
-  let savedBest = localStorage.getItem("personalBest");
+  const savedBest = localStorage.getItem("personalBest");
 
   // Hide the typing screen first
   startedScreen.hidden = true;
@@ -123,33 +123,33 @@ function handleTestCompletion(currentWpm) {
     secondRow.hidden = true;
   }
 
-  let wpmResult = document.querySelectorAll(".wpm-span-result");
-  let wpmResultArray = Array.from(wpmResult);
+  const wpmResult = document.querySelectorAll(".wpm-span-result");
+  const wpmResultArray = Array.from(wpmResult);
   wpmResultArray.forEach((element) => {
     element.textContent = currentWpm;
   });
-  let accuracyResult = document.querySelectorAll(".a-span-result");
-  let accuracyResultArray = Array.from(accuracyResult);
+  const accuracyResult = document.querySelectorAll(".a-span-result");
+  const accuracyResultArray = Array.from(accuracyResult);
 
-  let correctArray = Array.from(spans).filter((span) =>
+  const correctArray = Array.from(spans).filter((span) =>
     span.classList.contains("correct"),
   );
-  let correctCount = correctArray.length;
-  let incorrectArray = Array.from(spans).filter((span) =>
+  const correctCount = correctArray.length;
+  const incorrectArray = Array.from(spans).filter((span) =>
     span.classList.contains("incorrect"),
   );
-  let incorrectCount = incorrectArray.length;
-  let totalCount = correctCount + incorrectCount;
-  let currentPercentage = Math.floor((correctCount / totalCount) * 100);
+  const incorrectCount = incorrectArray.length;
+  const totalCount = correctCount + incorrectCount;
+  const currentPercentage = Math.floor((correctCount / totalCount) * 100);
   accuracyResultArray.forEach((element) => {
     element.textContent = `${currentPercentage}%`;
   });
 
-  let charRedResult = document.querySelectorAll(".char-span-red");
+  const charRedResult = document.querySelectorAll(".char-span-red");
   Array.from(charRedResult).forEach((element) => {
     element.textContent = incorrectCount;
   });
-  let charCorrectResult = document.querySelectorAll(".char-span-correct");
+  const charCorrectResult = document.querySelectorAll(".char-span-correct");
   Array.from(charCorrectResult).forEach((element) => {
     element.textContent = correctCount;
   });
@@ -193,36 +193,35 @@ document.addEventListener("keydown", (event) => {
         hasTimeStarted = true;
         startTime = new Date().getTime();
         timerStop = setInterval(() => {
-          let elapsedTime = new Date().getTime() - startTime;
+          const elapsedTime = new Date().getTime() - startTime;
           //   converts miliseconds into seconds
           let elapsedSeconds = Math.floor(elapsedTime / 1000);
           if (elapsedSeconds === 0) {
             elapsedSeconds = 1;
           }
 
-          let correctArray = Array.from(spans).filter((span) =>
+          const correctArray = Array.from(spans).filter((span) =>
             span.classList.contains("correct"),
           );
-          let correctCount = correctArray.length;
+          const correctCount = correctArray.length;
 
-          let incorrectArray = Array.from(spans).filter((span) =>
+          const incorrectArray = Array.from(spans).filter((span) =>
             span.classList.contains("incorrect"),
           );
-          let incorrectCount = incorrectArray.length;
+          const incorrectCount = incorrectArray.length;
 
-          let totalCount = correctCount + incorrectCount;
-          let standardWords = totalCount / 5;
+          const totalCount = correctCount + incorrectCount;
+          const standardWords = totalCount / 5;
           wpm = Math.floor(standardWords / (elapsedSeconds / 60));
 
           wpmSpan.textContent = wpm;
 
           if (currentMode === "timed") {
-            let remainingTime;
-            remainingTime = 60 - elapsedSeconds;
+            const remainingTime = 60 - elapsedSeconds;
 
             // timer starts here in time span for timed.
-            let formattedTime = remainingTime.toString().padStart(2, "0");
-            let displayTime = `0:${formattedTime}`;
+            const formattedTime = remainingTime.toString().padStart(2, "0");
+            const displayTime = `0:${formattedTime}`;
             tSpan.textContent = displayTime;
 
             if (remainingTime === 0 || currentIndex === spans.length) {
@@ -233,12 +232,12 @@ document.addEventListener("keydown", (event) => {
           } else {
             if (currentMode === "passage") {
               // this add and starts Time in Time span for passage active.
-              let minutes = Math.floor(elapsedSeconds / 60);
-              let remainingSeconds = elapsedSeconds % 60;
-              let formattedSeconds = remainingSeconds
+              const minutes = Math.floor(elapsedSeconds / 60);
+              const remainingSeconds = elapsedSeconds % 60;
+              const formattedSeconds = remainingSeconds
                 .toString()
                 .padStart(2, "0");
-              let displayTime = `${minutes}:${formattedSeconds}`;
+              const displayTime = `${minutes}:${formattedSeconds}`;
               tSpan.textContent = displayTime;
               if (currentIndex === spans.length) {
                 clearInterval(timerStop);
@@ -250,18 +249,18 @@ document.addEventListener("keydown", (event) => {
       }
 
       //  this block is  for accuracy to show percentage of correct characters.
-      let correctArray = Array.from(spans).filter((span) =>
+      const correctArray = Array.from(spans).filter((span) =>
         span.classList.contains("correct"),
       );
-      let correctCount = correctArray.length;
+      const correctCount = correctArray.length;
 
-      let incorrectArray = Array.from(spans).filter((span) =>
+      const incorrectArray = Array.from(spans).filter((span) =>
         span.classList.contains("incorrect"),
       );
-      let incorrectCount = incorrectArray.length;
+      const incorrectCount = incorrectArray.length;
 
-      let totalCount = correctCount + incorrectCount;
-      let correctPercentage = Math.floor((correctCount / totalCount) * 100);
+      const totalCount = correctCount + incorrectCount;
+      const correctPercentage = Math.floor((correctCount / totalCount) * 100);
       aSpan.textContent = `${correctPercentage}%`;
     }
   }
@@ -333,7 +332,7 @@ timed2Btn.addEventListener("click", () => {
 });
 // ----- Event Listeners for dropdown hamburger menu.
 let difficultyRadio = document.querySelectorAll('input[name="difficulty"]');
-let modeRadio = document.querySelectorAll('input[name="mode"]');
+const modeRadio = document.querySelectorAll('input[name="mode"]');
 
 // ------Menu one (Hard)-----
 difficultyRadio.forEach((radio) => {
